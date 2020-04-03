@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task
+  PUBLIC "-//OASIS//DTD DITA Task//EN" "http://docs.oasis-open.org/dita/v1.1/OS/dtd/task.dtd">
+<task id="cluster-share-config">
+  <title>Configuring Share clustering</title>
+  <abstract><shortdesc>These steps are required for cluster configuration for Share. If you are using an HTTP
+    load-balancing mechanism in front of a clustered installation, ‘sticky’ routing must be enabled
+    for the HTTP requests made by the Share tier to the repository tier (the
+    <filepath>/alfresco</filepath> application). </shortdesc></abstract>
+  <prolog>
+    <author>Alfresco Documentation</author>
+    <source/>
+    <copyright>
+      <copyryear year="2011"/>
+      <copyrholder>Alfresco Software, Inc.</copyrholder>
+    </copyright>
+    <metadata>
+      <audience experiencelevel="expert" job="administering" type="administrator"/>
+      <category>Administration</category>
+      <keywords>
+        <option>clusters</option>
+      </keywords>
+      <prodinfo>
+        <prodname>ECM</prodname>
+        <vrmlist>
+          <vrm modification="2011/05/24" release="Enterprise" version="3.4.4"/>
+        </vrmlist>
+      </prodinfo>
+    </metadata>
+  </prolog>
+  
+  <taskbody>
+    <context>This can be achieved in one of two ways:</context>
+    <steps>
+      <step>
+        <cmd>Hard-wire each <filepath>/share</filepath> instance to its own
+            <filepath>/alfresco</filepath> instance, bypassing the load balancer.</cmd>
+        <info>This can be achieved by populating each <filepath>share-config-custom.xml</filepath>
+          file with a host name and port number that is not behind your load balancing mechanism.
+          Refer to <xref href="share-change-port.dita">Configuring
+            the Share default port</xref>. </info>
+      </step>
+      <step>
+        <cmd>If NTLM or Kerberos authentication is enabled with SSO, then Share will use
+          cookie-based sessions and you can configure your load balancer to use sticky routing using
+          the JSESSIONID cookie.</cmd>
+        <info>To enable NTLM or Kerberos with SSO, refer to the instructions in <xref href="../concepts/auth-config-examples.dita">Configuring
+            authentication</xref> to configure alfrescoNtlm, passthru, or Kerberos authentication,
+          and set either <codeph>ntlm.authentication.sso.enabled=true</codeph> or
+            <codeph>kerberos.authentication.sso.enabled=true</codeph>).</info>
+      </step>
+    </steps>
+    <result>If you are configuring a cluster, refer to <xref href="../concepts/ha-intro.dita">Setting up high availability systems</xref>. </result>
+  </taskbody>
+</task>
